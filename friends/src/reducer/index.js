@@ -1,4 +1,13 @@
-import { DELETE_FRIEND, FETCHING_FRIEND, LOGGING_IN, SAVING_FRIEND, UPDATE_FRIEND } from '../action';
+import { DELETE_FRIEND,
+    FETCHING_FRIEND_START,
+    FETCHING_FRIEND_SUCCESS,
+    FETCHING_FRIEND_FAIL,
+    LOGIN_START,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    SAVING_FRIEND,
+    UPDATE_FRIEND
+} from '../action';
 
 const initialState = {
     deleteFriend: false,
@@ -10,31 +19,32 @@ const initialState = {
     error: null
 }
 
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     switch(action.type){
-        case DELETE_FRIEND:
-            return {
-                ...state, 
-                friends: state.friends.map((friend, index)=>{
-                    return index !== action.payload
-                })
-            }
-        
-        case FETCHING_FRIEND:
-            return {
-                ...state,
-                error: '',
-                fetching: true
-            }
-        
-        case SAVING_FRIEND:
-            return {
-                ...state,
-            }
+        case LOGIN_START:
+        case FETCHING_FRIEND_START:
+        return {
+            ...state,
+            fetchingFriend: true
+        };
+        case LOGIN_SUCCESS:
 
-        case UPDATE_FRIEND: 
-            return{
-                ...state,
-            }    
+        localStorage.setItem('token', action.payload.payload)
+
+        return {
+            ...state,
+            fetchingFriend: false
+        }
+        case FETCHING_FRIEND_SUCCESS:
+        return {
+            ...state,
+            fetchingFriend: false,
+            paylaod: action.paylaod.data
+        }
+
+        default:
+        return state;
     }
 }
+
+export default reducer;
