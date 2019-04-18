@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+
+import { login } from '../action';
 
 class Login extends Component {
 
@@ -20,7 +23,8 @@ handleChange = e => {
 
 submitLogin = e => {
     e.preventDefault();
-    console.log('fired')
+    this.props.login(this.state.credentials)
+
 }
 
   render() {
@@ -43,10 +47,22 @@ submitLogin = e => {
                 placeholder='password'
                 onChange={this.handleChange}
             />
+            <button>Log in</button>
         </form>
       </div>
     )
   }
 }
 
-export default Login
+const mapStateToProps = state => {
+    return{
+        fetchingFriend: state.fetchingFriend,
+        error: state.error
+        
+    }
+}
+
+
+
+
+export default connect(mapStateToProps, { login })(Login);
