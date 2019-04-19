@@ -28,7 +28,6 @@ submitLogin = e => {
 }
 
   render() {
-      console.log(this.props)
     return (
       <div>
         <form onSubmit={this.submitLogin}>
